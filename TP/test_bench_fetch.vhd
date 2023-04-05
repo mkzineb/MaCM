@@ -12,7 +12,7 @@ signal npc_t, npc_fw_br_t, pc_plus4_t, i_FE_t : in std_logic_vector(31 downto 0)
 Signal PCSrc_ER_t, Bpris_EX_t, Gel_LI, clk_t : std_logic;
 
 begin 
-FE : entity work.etageFE port(npc_t, npc_fw_br_t, pc_plus4_t, i_FE_t, PCSrc_ER_t, Bpris_EX_t, Gel_LI, clk_t )
+FE : entity work.etageFE port map (npc_t, npc_fw_br_t, PCSrc_ER_t, Bpris_EX_t, Gel_LI, clk_t, pc_plus4_t, i_FE_t )
 process 
 begin 
 npc_t <= (others => '0');
@@ -21,13 +21,17 @@ PCSrc_ER_t <= '0';
 Bpris_EX_t <= '0';
 Gel_LI <= '1';
 clk_t <= '0';
-wait for 5n;
+wait for 5 ns;
 clk_t <= '1';
-wait for 5n;
+wait for 5 ns;
 clk_t <= '0';
-wait until (clk='0'); 
-	assert FALSE report "FIN DE SIMULATION" severity FAILURE;
+-- a finir
 
 end process;
 
-end test;
+entity test_DE is 
+end entity;
+
+architecture test_D of test_DE is
+
+end test_D;
