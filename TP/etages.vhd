@@ -79,7 +79,14 @@ entity etageEX is
 end entity;
 
 architecture etageEX_arch of etageEX is
-  signal ALUOp1, Oper2, ALUOp2 : std_logic_vector
+  signal ALUOp1, Oper2, ALUOp2, Res : std_logic_vector
+  alu : entity work.ALU port map(ALUOp1, ALUOp2, ALUCtrl_EX, Res_EX, CC);
+  ALUOp1 <= Op1_EX when EA_EX = "00" else Res_fwd_ER when EA_EX = "01" else Res_fwd_ME when EA_EX = "10";
+  Oper2 <= Op2_EX when EB_EX = "00" else Res_fwd_ER when EB_EX = "01" else Res_fwd_ME when EB_EX = "10";
+  ALUOp2 <= Oper2 when ALUSrc_EX = '0' else Extlmm_EX when ALUSrc_EX = '1';
+  WD_EX <= Op2_EX;
+  npc_fw_br <= Res; 
+  Op3_EX <= Op3_EX_out
 end architecture;
 
 -- -------------------------------------------------
@@ -101,6 +108,10 @@ entity etageME is
 end entity;
 
 architecture etageME_arch of etageME is
+  mem : entity work.dmem port map(clk, WD_ME, Res_ME, MemWR_Mem, Res_ME);
+  Res_ALU_ME <= Res_ME;
+  Op3_ME_out <= Op3_ME;
+  Res_fwd_ME <= Res_ME
 end architecture;
 
 -- -------------------------------------------------
@@ -122,4 +133,6 @@ entity etageER is
 end entity;
 
 architecture etageER_arch of etageER is 
+  Res_RE <= Res_Mem_RE when MemToReg_RE = '1' else Res_ALU_RE when MemToReg_RE = '0';
+  Op3_RE_out <= Op3_RE
 end architecture;
