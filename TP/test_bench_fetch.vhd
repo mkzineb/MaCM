@@ -25,13 +25,31 @@ wait for 5 ns;
 clk_t <= '1';
 wait for 5 ns;
 clk_t <= '0';
--- a finir
-
+wait for 5 ns;
+wait;
 end process;
+end architecture;
 
 entity test_DE is 
 end entity;
 
-architecture test_D of test_DE is
+architecture test of test_EX is
+end test;
 
-end test_D;
+entity test_EX is 
+end entity;
+
+architecture test of test_EX is
+end test;
+
+entity test_ME is 
+end entity;
+
+architecture test of test_ME is
+end test;
+
+entity test_ER is 
+end entity;
+
+architecture test of test_ER is
+end test;
